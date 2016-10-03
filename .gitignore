@@ -5,4 +5,4 @@
 /.psci*
 /src/.webpack.js
 .psa-stash
-bundle/lir.js
+.DS_Store
