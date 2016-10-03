@@ -1,0 +1,16 @@
+{
+    "name": "lir",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "output"
+    ],
+    "dependencies": {
+        "purescript-foreign": "*",
+        "purescript-jquery": "*"
+    },
+    "devDependencies": {
+        "purescript-psci-support": "^1.0.0"
+    }
+}
