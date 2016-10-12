@@ -1,5 +1,13 @@
 ## Module Types
 
+#### `Selector`
+
+``` purescript
+type Selector = String
+```
+
+Alias Selector to String to make signatures a bit more readable.
+
 #### `Result`
 
 ``` purescript
