@@ -1129,7 +1129,7 @@ var Lir = {};
               if (!$0) {
                   return error;
               };
-              throw new Error("Failed pattern match at Validate line 43, column 3 - line 43, column 66: " + [ $0.constructor.name ]);
+              throw new Error("Failed pattern match at Validate line 45, column 3 - line 45, column 66: " + [ $0.constructor.name ]);
           };
       };
   };
@@ -1161,14 +1161,17 @@ var Lir = {};
           return Data_Functor.map(Data_Functor.functorArray)(Types.unResult)($2);
       });
   };
-  var allValid = function (results) {
-      var allMessages = Data_Foldable.foldl(Data_Foldable.foldableArray)(function (acc) {
+  var allMessages = function (results) {
+      return Data_Foldable.foldl(Data_Foldable.foldableArray)(function (acc) {
           return function (x) {
               return Data_Semigroup.append(Data_Semigroup.semigroupArray)(x.messages)(acc);
           };
       })([  ])(results);
-      return Data_Array.length(allMessages) === 0;
   };
+  var allValid = function (results) {
+      return Data_Array.length(allMessages(results)) === 0;
+  };
+  exports["allMessages"] = allMessages;
   exports["allValid"] = allValid;
   exports["runValidation"] = runValidation;
 })(Lir["Validate"] = Lir["Validate"] || {});

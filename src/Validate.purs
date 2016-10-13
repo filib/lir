@@ -1,5 +1,6 @@
 module Validate (
-    allValid
+    allMessages
+  , allValid
   , runValidation
 ) where
 
@@ -13,12 +14,13 @@ import Interop (getValue)
 import Prelude (pure, map, (==), ($), (>>>), (>>=), (<>), (<$>))
 import Types (Validation, Rule, ValidationConfig, ResultRecord, Result(..), Selector, unResult)
 
+-- | Pull all messages out of validation results.
+allMessages :: Array ResultRecord -> Array String
+allMessages results = foldl (\acc x -> x.messages <> acc) [ ] results
+
 -- | Report whether all results are valid.
 allValid :: Array ResultRecord -> Boolean
-allValid results = length allMessages == 0
-  where
-    allMessages :: Array String
-    allMessages = foldl (\acc x -> x.messages <> acc) [ ] results
+allValid results = length (allMessages results) == 0
 
 -- | Entry point that runs a validation config on the DOM.
 runValidation :: ValidationConfig -> Array ResultRecord
