@@ -7,15 +7,8 @@
     "output"
   ],
   "dependencies": {
-    "purescript-dom": "*",
-    "purescript-foreign": "*",
-    "purescript-globals": "*"
-  },
-  "devDependencies": {
-    "purescript-psci-support": "^1.0.0",
-    "purescript-spec": "*"
-  },
-  "resolutions": {
-    "purescript-js-date": "^2.0.0"
+    "purescript-dom": "0.2.20",
+    "purescript-foreign": "0.7.2",
+    "purescript-globals": "0.2.0"
   }
 }
