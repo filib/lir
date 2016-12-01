@@ -4,14 +4,13 @@ import Constraints
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
 import Data.Foreign (toForeign)
-import Node.Process (PROCESS)
 import Prelude (Unit, bind, ($))
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.Console (consoleReporter)
-import Test.Spec.Runner (run)
+import Test.Spec.Runner (Process, run)
 
-main :: forall eff. Eff (process :: PROCESS, console :: CONSOLE | eff) Unit
+main :: forall e. Eff (process :: Process, console :: CONSOLE | e) Unit
 main = run [consoleReporter] do
   describe "Constraints" do
     describe "notNullOrUndefined" do
@@ -59,7 +58,7 @@ main = run [consoleReporter] do
         result `shouldEqual` true
 
       it "should be false for all unsupported values" do
-        let result = isInt $ toForeign "1.0"
+        let result = isInt $ toForeign "zero"
         result `shouldEqual` false
 
     describe "isNat" do
@@ -68,7 +67,7 @@ main = run [consoleReporter] do
         result `shouldEqual` true
 
       it "should be false for all unsupported values" do
-        let result = isNat $ toForeign "1.0"
+        let result = isNat $ toForeign "-42"
         result `shouldEqual` false
 
     describe "isNumber" do
