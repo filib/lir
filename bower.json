@@ -1,5 +1,5 @@
 {
-    "name": "lir",
+    "name": "purescript-lir",
     "ignore": [
         "**/.*",
         "node_modules",

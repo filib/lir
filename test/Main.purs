@@ -1,6 +1,6 @@
 module Test.Main where
 
-import Constraints
+import Lir.Constraints
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
 import Data.Foreign (toForeign)

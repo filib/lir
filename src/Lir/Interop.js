@@ -1,6 +1,6 @@
 /*global exports, document*/
 
-// module Interop
+// module Lir.Interop
 
 exports.getValue = function (selector) {
     "use strict";

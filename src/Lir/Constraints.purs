@@ -1,4 +1,4 @@
-module Constraints (
+module Lir.Constraints (
     notNullOrUndefined
   , required
   , isBoolean

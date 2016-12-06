@@ -1,4 +1,4 @@
-module Interop where
+module Lir.Interop where
 
 import Control.Monad.Eff (Eff)
 import DOM (DOM)
