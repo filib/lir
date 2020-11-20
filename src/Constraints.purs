@@ -12,8 +12,9 @@ module Constraints (
   , lessThan
 ) where
 
+import Control.Monad.Except (runExcept)
 import Data.Either (Either(..))
-import Data.Foreign (Foreign, readString, isUndefined, isNull)
+import Foreign (Foreign, readString, isUndefined, isNull)
 import Data.Int (toNumber, fromString)
 import Data.Maybe (Maybe(..), maybe)
 import Data.String as String
@@ -32,20 +33,20 @@ required value = stringCompare value $ \x ->
 
 -- | Checks that the value looks like a typical boolean value.
 isBoolean :: Foreign -> Boolean
-isBoolean value = case readString value of
+isBoolean value = case runExcept $ readString value of
   Right "true"  -> true
   Right "false" -> true
   _             -> false
 
 -- | Checks that the value is an integer.
 isInt :: Foreign -> Boolean
-isInt value = case readString value of
+isInt value = case runExcept (readString value) of
   Right string -> maybe false (const true) (fromString string)
   _            -> false
 
 -- | Checks that a value is a natural number.
 isNat :: Foreign -> Boolean
-isNat value = case readString value of
+isNat value = case runExcept (readString value) of
   Right string -> maybe false (\i -> i >= 0) (fromString string)
   _            -> false
 
@@ -92,7 +93,7 @@ compress f x = case f x of
 
 -- | Takes a string and attempts to safely coerce it to a number.
 readNumberFromString :: Foreign -> Maybe Number
-readNumberFromString value = case readString value of
+readNumberFromString value = case runExcept $ readString value of
   Right string -> let number = readFloat string in
     if notNaN number then Just number else Nothing
   _            -> Nothing
@@ -102,6 +103,6 @@ readNumberFromString value = case readString value of
 
 -- | Compares string lengths.
 stringCompare :: Foreign -> (Int -> Boolean) -> Boolean
-stringCompare value compare = case readString value of
+stringCompare value compare = case runExcept $ readString value of
   Right string -> compare (String.length string)
   _            -> false

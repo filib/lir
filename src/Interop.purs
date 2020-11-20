@@ -1,7 +1,6 @@
 module Interop where
 
-import Control.Monad.Eff (Eff)
-import DOM (DOM)
-import Data.Foreign (Foreign)
+import Effect (Effect)
+import Foreign (Foreign)
 
-foreign import getValue :: forall eff. String -> Eff (dom :: DOM | eff) Foreign
+foreign import getValue :: String -> Effect Foreign

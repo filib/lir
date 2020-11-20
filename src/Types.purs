@@ -1,6 +1,6 @@
 module Types where
 
-import Data.Foreign (Foreign)
+import Foreign (Foreign)
 import Prelude (class Semigroup, (<>), ($))
 
 
