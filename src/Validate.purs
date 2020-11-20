@@ -4,14 +4,13 @@ module Validate (
   , runValidation
 ) where
 
-import Control.Monad.Eff (Eff)
-import Control.Monad.Eff.Unsafe (unsafePerformEff)
-import DOM (DOM)
+import Effect (Effect)
+import Effect.Unsafe (unsafePerformEffect)
 import Data.Array (length)
-import Data.Foreign (Foreign)
+import Foreign (Foreign)
 import Data.Traversable (foldl, sequence)
 import Interop (getValue)
-import Prelude (pure, map, (==), ($), (>>>), (>>=), (<>), (<$>))
+import Prelude (bind, pure, map, (==), ($), (>>>), (>>=), (<>), (<$>))
 import Types (Validation, Rule, ValidationConfig, ResultRecord, Result(..), Selector, unResult)
 
 -- | Pull all messages out of validation results.
@@ -24,13 +23,12 @@ allValid results = length (allMessages results) == 0
 
 -- | Entry point that runs a validation config on the DOM.
 runValidation :: ValidationConfig -> Array ResultRecord
-runValidation config = unsafePerformEff $ runValidation' config
+runValidation config = unsafePerformEffect $ runValidation' config
                        >>= map unResult
                        >>> pure
 
 -- | Entry point that runs a validation config on the DOM.
-runValidation' :: forall eff. ValidationConfig
-                 -> Eff (dom :: DOM | eff) (Array Result)
+runValidation' :: ValidationConfig -> Effect (Array Result)
 runValidation' config = sequence $ map validate config.validations
 
 -- | Constructs a default result with no error messages.
@@ -50,11 +48,10 @@ applyRule selector rule value =
                    }
 
 -- | Validates a DOM element adheres to our specified constraints.
-validate :: forall eff. Validation -> Eff (dom :: DOM | eff) Result
-validate validation = getValue validation.selector
-                      >>= collect
-                      >>> reduce
-                      >>> pure
+validate :: Validation -> Effect Result
+validate validation = do
+  val <- getValue validation.selector
+  pure $ reduce (collect val)
   where
     validations :: Array (Foreign -> Result)
     validations = applyRule validation.selector <$> validation.rules
